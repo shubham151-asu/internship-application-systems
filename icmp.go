@@ -32,6 +32,7 @@ func (p* Packet) ICMP() {
 	defer conn.Close()  // Close the connection when everything is done
 
 	reply := make([]byte, ReadDataSize)
+	p.sequence += 1
     	for { 	// Run Infinite Loop for the code
 
 		if p.count!=0 && p.sequence==p.count{
@@ -77,7 +78,7 @@ func (p* Packet) ICMP() {
 			Seq = rm.Body.(*icmp.Echo).Seq
 		}
 
-		fmt.Printf("%d bytes recieved from %s target (%s): icmp_seq=%d time=%s : Success\n",n,p.address,p.IP.IP,Seq,duration)
+		fmt.Printf("%d bytes from %s (%s): icmp_seq=%d time=%.4s ms \n",n,p.address,p.IP.IP,Seq,duration)
 		if err != nil {
 			return 
 		}
