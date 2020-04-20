@@ -43,6 +43,7 @@ func (p* Packet) IPv4() {
 	packetipv4.SetTTL(p.ttl)
 	reply := make([]byte, ReadDataSize)
 	//count := 1
+	p.sequence += 1
     	for { 	// Run Infinite Loop for the code
 		
 		if p.count!=0 && p.sequence==p.count{
@@ -77,27 +78,28 @@ func (p* Packet) IPv4() {
 
 		duration := time.Since(start)
 		//fmt.Println("details from cm and peer",cm.TTL,cm.,peer)
-	
+		rm, err := p.returnParsedMessage(n,reply)
+
+		if (rm.Type!= ipv4.ICMPTypeEchoReply){
+			fmt.Printf("%d bytes received from %s target (%s): Loss\n",n,p.address,p.IP.IP)
+                	continue
+		}
+		
+		Seq:= rm.Body.(*icmp.Echo).Seq  // Check the Sequence of the message
+		
 		if p.ttl<cm.TTL {
 				fmt.Printf("From %s (%s) icmp_seq=%d Time to live exceeded \n",cm.Dst,cm.Dst,p.sequence)
 				continue
 			}
-
+		
 		if err != nil {
 			fmt.Printf("%d bytes received from %s target (%s) : Loss : Error %s\n",n,p.address,p.IP.IP,err)
 			continue
 		}
 
-		rm, err := p.returnParsedMessage(n,reply)
-	
-		if (p.protocol=="ipv4" && rm.Type!= ipv4.ICMPTypeEchoReply){
-			fmt.Printf("%d bytes received from %s target (%s): Loss\n",n,p.address,p.IP.IP)
-                	continue
-		}
+		
 
-		Seq:= rm.Body.(*icmp.Echo).Seq  // Check the Sequence of the message
-
-		fmt.Printf("%d bytes recieved from %s target (%s): icmp_seq=%d time=%s : Success\n",n,p.address,p.IP.IP,Seq,duration)
+		fmt.Printf("%d bytes from %s (%s): icmp_seq=%d ttl=%d time=%.4s ms \n",n,p.address,p.IP.IP,Seq,cm.TTL,duration)
 		if err != nil {
 			return
 		}
