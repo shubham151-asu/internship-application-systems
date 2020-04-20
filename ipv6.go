@@ -94,13 +94,13 @@ func (p* Packet) IPv6() {
 		Seq:= rm.Body.(*icmp.Echo).Seq 
 		
 		if p.ttl<cm.HopLimit {
-				fmt.Printf("From %s (%s) icmp_seq=%d Time exceeded: Hop limit \n",cm.Dst,cm.Dst,p.sequence)
+				fmt.Printf("From %s (%s) icmp_seq=%d Time exceeded: Hop limit \n",cm.Dst,cm.Dst,Seq)
 				continue
 			}
 				
 		switch rm.Type {
 		   case ipv6.ICMPTypeTimeExceeded:
-			fmt.Printf("%d bytes recieved from %s target (%s): icmp_seq=%d time=%s : Loss\n",n,p.address,p.IP,p.sequence,duration)
+			fmt.Printf("%d bytes from %s (%s): icmp_seq=%d time=%s : Loss\n",n,p.address,p.IP.IP,Seq,duration)
 		   case ipv6.ICMPTypeEchoReply:
 			fmt.Printf("%d bytes from %s (%s): icmp_seq=%d ttl=%d time=%.4s ms \n",n,p.address,p.IP.IP,Seq,cm.HopLimit,duration)
 			
