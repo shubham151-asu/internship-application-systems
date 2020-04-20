@@ -7,7 +7,7 @@ Current Implementation and TODO items
 ---------------
 	1. Able to send ICMP request using icmp protocol
 	2. Able to send ICMP request using ipv4 protocol
-	3. Not able to recieve ICMP request using IPv6 protocol : docker container issue in my environment
+	3. Able to send ICMP request using ipv6 protocol
 	4. Able to set TTL limits for IPv4 and HopLimits in IPv6 
 	5. Set logs in the code : TODO
 	6. Ping statistics : TODO
@@ -15,7 +15,7 @@ Current Implementation and TODO items
 	
 Dependencies
 ---------------
-	1.Go compliler
+	1.Go compiler
 	2.Packages :  net
 	             "golang.org/x/net/icmp"
 		     "golang.org/x/net/ipv4"
@@ -28,8 +28,8 @@ Build
 go build main.go icmp.go ipv4.go ipv6.go constants.go util.go
 
 Run
----------------
-./main params
+----------------
+./main params     ( if unable to create connection object : use sudo ./main params )
 
 	params
 	----------
