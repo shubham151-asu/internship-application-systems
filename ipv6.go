@@ -60,7 +60,7 @@ func (p* Packet) IPv6() {
 		if err != nil{
 			return
 		}
-		p.sequence += 1
+	
 		wcm.HopLimit = p.ttl
 	
 
@@ -82,31 +82,28 @@ func (p* Packet) IPv6() {
 			return 
 		}
 		n,cm, _ , err := packetipv6.ReadFrom(reply)
+		duration := time.Since(start)
 		if err != nil {
-			fmt.Printf("%d bytes received from %s target (%s): Loss\n",n,p.address,cm)
+			fmt.Printf("%d bytes received from %s target (%s): Loss\n",n,p.address,p.IP.IP)
+			p.sequence += 1
 			continue
 		}
 
-		duration := time.Since(start)
+		
 		//fmt.Println("Error due to read failure",err)
 
 		rm, err := p.returnParsedMessage(n,reply)
-		Seq:= rm.Body.(*icmp.Echo).Seq 
-		
-		if p.ttl<cm.HopLimit {
-				fmt.Printf("From %s (%s) icmp_seq=%d Time exceeded: Hop limit \n",cm.Dst,cm.Dst,Seq)
-				continue
-			}
 				
 		switch rm.Type {
 		   case ipv6.ICMPTypeTimeExceeded:
-			fmt.Printf("%d bytes from %s (%s): icmp_seq=%d time=%s : Loss\n",n,p.address,p.IP.IP,Seq,duration)
+			fmt.Printf("From %s (%s) icmp_seq=%d Time exceeded: Hop limit \n",cm.Dst,cm.Dst,p.sequence)
 		   case ipv6.ICMPTypeEchoReply:
+			Seq:= rm.Body.(*icmp.Echo).Seq 
 			fmt.Printf("%d bytes from %s (%s): icmp_seq=%d ttl=%d time=%.4s ms \n",n,p.address,p.IP.IP,Seq,cm.HopLimit,duration)
 			
 		}
-		
-	    }
+		p.sequence += 1	
+	}
 }
 
 
