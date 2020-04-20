@@ -35,9 +35,7 @@ func (p* Packet) makeECHOmessage() ([] byte , error) {
 		message = icmp.Message{
 		Type: ipv6.ICMPTypeEchoRequest,
 		Code:0,
-		Body: &icmp.Echo{
-			ID:   p.id,
-			Data: []byte(messageString),
+		Body: body,
 		},
 	     }
 	}
@@ -66,6 +64,7 @@ func (p *Packet)resolveIPAddress(){
                         p.IP.IP =nil
      		}
 	}
+	fmt.Printf("ICMP Echo Request to %s (%s) %d data Bytes\n",p.address,p.IP.IP,maxMessageLength)
 }
 
 
