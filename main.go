@@ -29,7 +29,7 @@ type ICMPStatistic struct {
 
 func main() {
 
-	protocol := flag.String("p","ipv4","Default protocol is IPv4")
+	protocol := flag.String("p","ipv6","Default protocol is IPv4")
 	count := flag.Int("c",DefaultCount,"Default number of packets to be sent is 64")
 	ttl := flag.Int("t",DefaultTTL,"Default TTL is 59")
 	host := flag.String("h","","Default host is not set")
