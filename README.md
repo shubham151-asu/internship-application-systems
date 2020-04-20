@@ -39,11 +39,11 @@ Run
 		-t : to set TTL limit (an integer)
 		-c : to set number of packets to be sent (an integer)
 		-i : Interval between each package sent (an integer)
-		-p : protocol : can be icmp,ipv4,ipv6 (Default protocol is IPv4 )
+		-p : protocol : can be icmp,ipv4,ipv6 (Default protocol is IPv6 )
 				with icmp ttl/hopLimits will not be set
 
 	sample run :
-		./main -h=google.com -p=ipv4 -t=45 -c=65 -i=2 
+		./main -h=google.com -c=65 -i=2 -t=45 -p=ivp4 
 		This will send ICMP Echo message to google IPv4 address after resolution with TTL limit 45,
 		total number of packets to be sent is 65, interval or delay between each message is 2 seconds
 
