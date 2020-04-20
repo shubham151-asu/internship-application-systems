@@ -53,7 +53,7 @@ func (p* Packet) IPv6() {
 	p.sequence += 1
     	for { 	// Run Infinite Loop for the code
 		
-		if p.count!=0 && p.sequence==p.count{
+		if p.count!=0 && p.sequence==p.count + 1{
 			break
 		}
 		b,err := p.makeECHOmessage()
