@@ -55,9 +55,7 @@ func (p* Packet) IPv4() {
 			fmt.Println("Unable to make ICMP Echo message : Error",err)
 			return 
 		}
-		p.sequence += 1
 		
-
 		//fmt.Println("Time in second before sending ",time.Now())
 		time.Sleep(time.Duration(p.delay)*time.Second)
 
@@ -75,36 +73,27 @@ func (p* Packet) IPv4() {
 			return
 		}
 		n,cm, _ , err := packetipv4.ReadFrom(reply)
-
 		duration := time.Since(start)
+		
+		if err != nil {
+                        fmt.Printf("%d bytes received from %s target (%s) : Loss : Error %s\n",n,cm.Dst,cm.Dst,err)
+			p.sequence += 1
+                        continue
+                }
+		
 		//fmt.Println("details from cm and peer",cm.TTL,cm.,peer)
 		rm, err := p.returnParsedMessage(n,reply)
 
-		if (rm.Type!= ipv4.ICMPTypeEchoReply){
-			fmt.Printf("%d bytes received from %s target (%s): Loss\n",n,p.address,p.IP.IP)
-                	continue
-		}
 		
-		Seq:= rm.Body.(*icmp.Echo).Seq  // Check the Sequence of the message
-		
-		if p.ttl<cm.TTL {
-				fmt.Printf("From %s (%s) icmp_seq=%d Time to live exceeded \n",cm.Dst,cm.Dst,p.sequence)
-				continue
-			}
-		
-		if err != nil {
-			fmt.Printf("%d bytes received from %s target (%s) : Loss : Error %s\n",n,p.address,p.IP.IP,err)
-			continue
-		}
+		switch rm.Type {
+		   case ipv4.ICMPTypeTimeExceeded:
+			fmt.Printf("From %s (%s) icmp_seq=%d Time to live exceeded \n",cm.Dst,cm.Dst,p.sequence)
+		   case ipv4.ICMPTypeEchoReply:
+			Seq:= rm.Body.(*icmp.Echo).Seq 
+			fmt.Printf("%d bytes from %s (%s): icmp_seq=%d ttl=%d time=%.4s ms \n",n,p.address,p.IP.IP,Seq,cm.TTL,duration)
 
-		
-
-		fmt.Printf("%d bytes from %s (%s): icmp_seq=%d ttl=%d time=%.4s ms \n",n,p.address,p.IP.IP,Seq,cm.TTL,duration)
-		if err != nil {
-			return
-		}
-		//fmt.Println("Duration and peer:",peer,duration)
-		
+	    	}
+		p.sequence += 1
 	    }
 }
 
