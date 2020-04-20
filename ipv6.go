@@ -49,7 +49,7 @@ func (p* Packet) IPv6() {
 	}
 	var wcm ipv6.ControlMessage
 	reply := make([]byte, ReadDataSize)
-
+	p.sequence += 1
     	for { 	// Run Infinite Loop for the code
 		
 		if p.count!=0 && p.sequence==p.count{
@@ -89,20 +89,19 @@ func (p* Packet) IPv6() {
 		duration := time.Since(start)
 		//fmt.Println("Error due to read failure",err)
 
+		rm, err := p.returnParsedMessage(n,reply)
+		Seq:= rm.Body.(*icmp.Echo).Seq 
+		
 		if p.ttl<cm.HopLimit {
 				fmt.Printf("From %s (%s) icmp_seq=%d Time exceeded: Hop limit \n",cm.Dst,cm.Dst,p.sequence)
 				continue
 			}
-		
-
-		rm, err := p.returnParsedMessage(n,reply)
-		fmt.Printf("type of message recieved %T",rm.Type)
-
+				
 		switch rm.Type {
 		   case ipv6.ICMPTypeTimeExceeded:
 			fmt.Printf("%d bytes recieved from %s target (%s): icmp_seq=%d time=%s : Loss\n",n,p.address,p.IP,p.sequence,duration)
 		   case ipv6.ICMPTypeEchoReply:
-			fmt.Printf("%d bytes recieved from %s target (%s): icmp_seq=%d time=%s : Success\n",n,p.address,p.IP.IP,p.sequence,duration)
+			fmt.Printf("%d bytes from %s (%s): icmp_seq=%d ttl=%d time=%.4s ms \n",n,p.address,p.IP.IP,Seq,cm.HopLimit,duration)
 			
 		}
 		
