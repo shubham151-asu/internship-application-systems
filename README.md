@@ -7,8 +7,7 @@ Current Implementation and TODO items
 ---------------
 	1. Able to send ICMP request using icmp protocol
 	2. Able to send ICMP request using ipv4 protocol
-	3. Not able to recieve ICMP request using IPv6 protocol : docker container issue in my environment : Will need time to fix that 
-	   Can be tested in other environment 
+	3. Not able to recieve ICMP request using IPv6 protocol : docker container issue in my environment
 	4. Able to set TTL limits for IPv4 and HopLimits in IPv6 
 	5. Set logs in the code : TODO
 	6. Ping statistics : TODO
@@ -45,8 +44,8 @@ Run
 
 	sample run :
 		./main -h=google.com -p=ipv4 -t=45 -c=65 -i=2 
-		This will send ICMP Echo message to google IPv4 address after resolution with TTL limit 45, total number of package to be sent
-		is 65, interval or delay between each message is 2 seconds
+		This will send ICMP Echo message to google IPv4 address after resolution with TTL limit 45,
+		total number of packets to be sent is 65, interval or delay between each message is 2 seconds
 
 
 
