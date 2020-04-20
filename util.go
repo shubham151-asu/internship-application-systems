@@ -36,10 +36,9 @@ func (p* Packet) makeECHOmessage() ([] byte , error) {
 		Type: ipv6.ICMPTypeEchoRequest,
 		Code:0,
 		Body: body,
-		},
+		}
 	     }
-	}
-	
+		
     b, err := message.Marshal(nil)
     if err != nil {
 	fmt.Printf(" Error in Marshelling the Echo Packet : Error %s",err)
