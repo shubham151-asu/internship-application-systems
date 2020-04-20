@@ -59,12 +59,11 @@ func (p *Packet)resolveIPAddress(){
 		p.IP, p.err = net.ResolveIPAddr("ip6", p.address)
 	  default:
 		p.IP, p.err = net.ResolveIPAddr("ip", p.address)
-		if (p.err!=nil){
-                        p.IP.IP =nil
-     		}
 	}
-	fmt.Printf("ICMP Echo Request to %s (%s) %d data Bytes\n",p.address,p.IP.IP,maxMessageLength)
-}
+	if p.IP!=nil {
+		fmt.Printf("ICMP Echo Request to %s (%s) %d data Bytes\n",p.address,p.IP.IP,maxMessageLength)
+	}
+}	
 
 
 func (p *Packet) returnParsedMessage(n int,reply []byte) (*icmp.Message , error){
