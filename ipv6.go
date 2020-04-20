@@ -24,10 +24,10 @@ func (p* Packet) IPv6() {
 	}
 	//fmt.Println("Connection obj,protocol,err",conn,p.protocol,p.err)
 
-	p.resolveIPAddress()
+	//p.resolveIPAddress()
         //fmt.Println("Resolved address",p.IP)
-	if p.IP.IP == nil {
-		//fmt.Println("Unable to resolve IP address")
+	if p.IP == nil {
+		fmt.Println("Unable to resolve IPv6 address")
 		return 
 	}
 
