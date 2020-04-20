@@ -23,9 +23,9 @@ func (p* Packet) IPv4() {
 	}
 	//fmt.Println("Connection obj,protocol,err",conn,p.protocol,p.err)
 
-	p.resolveIPAddress()
+	//p.resolveIPAddress()
         //fmt.Println("Resolved address",p.IP)
-	if p.IP.IP == nil  {
+	if p.IP == nil  {
 		fmt.Printf("Unable to resolve IP address %s\n",p.address)
 		return 
 	}
