@@ -1,49 +1,68 @@
-# Cloudflare Internship Application: Systems
+Description
+---------------
+Code to build a small CLI application using golang to send icmp "echo requests" to hosts and receive "echo reply" from the host.
+Code takes hostname or IP from cli and sends ICMP request in an infinite loop. Code allows to set TTL limits , count ,interval params from the CLI similar to ping.
 
-## What is it?
 
-Please write a small Ping CLI application for MacOS or Linux.
-The CLI app should accept a hostname or an IP address as its argument, then send ICMP "echo requests" in a loop to the target while receiving "echo reply" messages.
-It should report loss and RTT times for each sent message.
+Rescources used
+---------------
+A lot of details for this code has been shared from sources accross the internet.
+	1. https://go.googlesource.com/net/+/master/ipv4/example_test.go
+	2. https://godoc.org/golang.org/x/net/icmp
+					     /ipv4
+					     /ipv6
 
-Please choose from among these languages: C/C++/Go/Rust
+Current Implementation and TODO items
+---------------
+	1. Able to send ICMP request using icmp protocol
+	2. Able to send ICMP request using ipv4 protocol
+	3. Not able to recieve ICMP request using IPv6 protocol : docker container issue in my environment : Will need time to fix that 
+	   Can be tested in other environment 
+	4. Able to set TTL limits for IPv4 and HopLimits in IPv6 
+	5. Set logs in the code : TODO
+	6. Ping statistics : TODO
+	
+	
+Dependencies
+---------------
+	1.Go compliler
+	2.Packages :  net
+	             "golang.org/x/net/icmp"
+		     "golang.org/x/net/ipv4"
+		     "golang.org/x/net/ipv6" 
 
-## Useful Links
 
-- [A Tour of Go](https://tour.golang.org/welcome/1)
-- [The Rust Programming Language](https://doc.rust-lang.org/book/index.html)
+Build
+----------------
 
-## Requirements
+go build main.go icmp.go ipv4.go ipv6.go constants.go util.go
 
-### 1. Use one of the specified languages
+Run
+---------------
+./main params
 
-Please choose from among C/C++/Go/Rust. If you aren't familiar with these languages, you're not alone! Many engineers join Cloudflare without
-specific langauge experience. Please consult [A Tour of Go](https://tour.golang.org/welcome/1) or [The Rust Programming Language](https://doc.rust-lang.org/book/index.html).
+	params
+	----------
+	Mandatory params :
+		-h : to provide hostname or IP 
+	Optional params :
+		-t : to set TTL limit (an integer)
+		-c : to set number of packets to be sent (an integer)
+		-i : Interval between each package sent (an integer)
+		-p : protocol : can be icmp,ipv4,ipv6 (Default protocol is IPv4 )
+				with icmp ttl/hopLimits will not be set
 
-### 2. Build a tool with a CLI interface
+	sample run :
+		./main -h=google.com -p=ipv4 -t=45 -c=65 -i=2 
+		This will send ICMP Echo message to google IPv4 address after resolution with TTL limit 45, total number of package to be sent
+		is 65, interval or delay between each message is 2 seconds
 
-The tool should accept as a positional terminal argument a hostname or IP address.
 
-### 3. Send ICMP "echo requests" in an infinite loop
 
-As long as the program is running it should continue to emit requests with a periodic delay.
 
-### 4. Report loss and RTT times for each message
 
-Packet loss and latency should be reported as each message received.
 
-## Submitting your project
 
-When submitting your project, you should prepare your code for upload to Greenhouse. The preferred method for doing this is to create a "ZIP archive" of your project folder: for more instructions on how to do this on Windows and Mac, see [this guide](https://www.sweetwater.com/sweetcare/articles/how-to-zip-and-unzip-files/).
 
-Please provide the source code only, a compiled binary is not necessary.
 
-## Using Libraries
 
-You may use libraries (both built-in and installed via package managers) and system calls as necessary. Please don't use the ping built-in application or a full library implementation of ping.
-
-## Extra Credit
-
-1. Add support for both IPv4 and IPv6
-2. Allow to set TTL as an argument and report the corresponding "time exceeded” ICMP messages
-3. Any additional features listed in the ping man page or which you think would be valuable
