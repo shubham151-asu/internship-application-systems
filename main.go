@@ -48,8 +48,13 @@ func main() {
 		delay:*delay, 
 	}
 	
+	p.resolveIPAddress()
+	if p.IP==nil{
+		p.protocol = "ipv4"
+		p.resolveIPAddress()
+	}
 
-	switch *protocol {
+	switch p.protocol {
 		case "icmp":
 			p.protocol = "ipv4"
 			p.ICMP()
