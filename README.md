@@ -1,6 +1,6 @@
 Description
 ---------------
-Code to build a small CLI application using golang to send icmp "echo requests" to hosts and receive "echo reply" from the host.Code takes hostname or IP from cli and sends ICMP request in an infinite loop. Code allows to set TTL limits , count ,interval params from the CLI similar to ping.
+Code to build a small CLI application using golang to send icmp "echo requests" to hosts and receive "echo reply" from the host. Code takes hostname or IP from CLI and sends ICMP request to the host in an infinite loop. Code also allows to set TTL limits, packets count,interval params from the CLI similar to ping.
 
 
 Current Implementation and TODO items
