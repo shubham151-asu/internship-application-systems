@@ -5,9 +5,9 @@ Code to build a small CLI application using golang to send icmp "echo requests" 
 
 Current Implementation and TODO items
 ---------------
-	1. Able to send ICMP request using icmp protocol
-	2. Able to send ICMP request using ipv4 protocol
-	3. Able to send ICMP request using ipv6 protocol
+	1. Able to send ICMP Echo request and recieve Echo Reply using icmp protocol
+	2. Able to send ICMP Echo request and recieve Echo Reply using ipv4 protocol
+	3. Able to send ICMP Echo request and recieve Echo Reply using ipv6 protocol
 	4. Able to set TTL limits for IPv4 and HopLimits in IPv6 
 	5. Set logs in the code : TODO
 	6. Ping statistics : TODO
