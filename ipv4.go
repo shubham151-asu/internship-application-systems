@@ -76,7 +76,7 @@ func (p* Packet) IPv4() {
 		duration := time.Since(start)
 		
 		if err != nil {
-                        fmt.Printf("%d bytes received from %s target (%s) : Loss : Error %s\n",n,cm.Dst,cm.Dst,err)
+                        fmt.Printf("Unable to Read Message: %s\n",err.Error())
 			p.sequence += 1
                         continue
                 }
