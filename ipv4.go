@@ -76,7 +76,7 @@ func (p* Packet) IPv4() {
 		duration := time.Since(start)
 		
 		if err != nil {
-                        fmt.Printf("Unable to Read Message: %s\n",err.Error())
+			fmt.Printf("Unable to Read Message : Error : %s\n",err.Error())
 			p.sequence += 1
                         continue
                 }
@@ -91,7 +91,8 @@ func (p* Packet) IPv4() {
 		   case ipv4.ICMPTypeEchoReply:
 			Seq:= rm.Body.(*icmp.Echo).Seq 
 			fmt.Printf("%d bytes from %s (%s): icmp_seq=%d ttl=%d time=%.4s ms \n",n,p.address,p.IP.IP,Seq,cm.TTL,duration)
-
+		   default:
+			fmt.Printf("Loss : unexpected type %s packet received\n",rm.Type)
 	    	}
 		p.sequence += 1
 	    }
