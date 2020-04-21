@@ -84,7 +84,7 @@ func (p* Packet) IPv6() {
 		n,cm, _ , err := packetipv6.ReadFrom(reply)
 		duration := time.Since(start)
 		if err != nil {
-			fmt.Printf("%d bytes received from %s target (%s): Loss\n",n,p.address,p.IP.IP)
+			fmt.Printf("Unable to Read Message : Error : %s\n",err.Error())
 			p.sequence += 1
 			continue
 		}
@@ -104,7 +104,8 @@ func (p* Packet) IPv6() {
 			} else {
 			fmt.Printf("%d bytes from %s (%s): icmp_seq=%d ttl=%d time=%.4s ms \n",n,p.address,p.IP.IP,Seq,cm.HopLimit,duration)
 			}
-			
+		   default:
+			fmt.Printf("Loss : unexpected type %s packet received\n",rm.Type)
 		}
 		p.sequence += 1	
 	}
